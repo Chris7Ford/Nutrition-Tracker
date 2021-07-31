@@ -7,7 +7,7 @@ const Page = (props) => {
     <>
       <Header />
       <Container className='mt-5'>
-      { props.content() }
+      { props.content }
       </Container>
     </>
   );
