@@ -44,8 +44,6 @@ onBarcodeDetect = (barCode) => {
 }
 
 fetchProductInfo = async() => {
-  //barCode = "897922002072";
-  //barCode = "851770003179";
   const barCode = this.upcInput.getAttribute("value");
   if (barCode.length) {
     const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${ barCode }.json`);
@@ -59,6 +57,7 @@ fetchProductInfo = async() => {
         "fat": data.product.nutriments.fat_serving,
         "numServings": data.product.serving_quantity,
         "servingSize": data.product.serving_size,
+        "upc": barCode,
         //"image": data.product.selectedImages
       };
       this.props.populateScannedProduct(product);

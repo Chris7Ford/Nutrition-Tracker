@@ -18,6 +18,7 @@ class NewFoodPage extends React.Component {
     this.fatInput = null;
     this.numServingsInput = null;
     this.servingSizeInput = null;
+    this.form = null;
     this.state = {
       "showModal": false,
     };
@@ -25,7 +26,22 @@ class NewFoodPage extends React.Component {
 
   createFood = (e) => {
     e.preventDefault();
-    console.log("Create food");
+    let product = {
+      "title": this.foodNameInput.getAttribute("value"),
+      "calories": this.caloriesInput.getAttribute("value"),
+      "protein": this.proteinInput.getAttribute("value"),
+      "carbs": this.carbsInput.getAttribute("value"),
+      "fat": this.fatInput.getAttribute("value"),
+      "numServings": this.numServingsInput.getAttribute("value"),
+      "servingSize": this.servingSizeInput.getAttribute("value"),
+      "upc": "",
+    };
+    let upc = this.form.getAttribute("upc");
+    if (upc) {
+      product.upc = upc;
+    }
+    console.log(product);
+    //Make a fetch request to save the product
   }
 
   openLookupModal = (e) => {
@@ -40,8 +56,6 @@ class NewFoodPage extends React.Component {
   }
 
   populateScannedProduct = (product) => {
-    console.log(product);
-    console.log(this.servingSizeInput);
     this.foodNameInput.setAttribute("value", product["title"]);
     this.caloriesInput.setAttribute("value", product["calories"]);
     this.proteinInput.setAttribute("value", product["protein"]);
@@ -49,6 +63,9 @@ class NewFoodPage extends React.Component {
     this.fatInput.setAttribute("value", product["fat"]);
     this.numServingsInput.setAttribute("value", product["numServings"]);
     this.servingSizeInput.setAttribute("value", product["servingSize"]);
+    if (product.hasOwnProperty("upc")) {
+      this.form.setAttribute("upc", product.upc);
+    }
     this.setShowModal(false);
   }
 
@@ -60,6 +77,7 @@ class NewFoodPage extends React.Component {
     this.fatInput = document.querySelector("#newFoodFat");
     this.numServingsInput = document.querySelector("#newFoodServings");
     this.servingSizeInput = document.querySelector("#newFoodServingSize");
+    this.form = document.querySelector("#new-food-form");
   }
 
   render() {
@@ -74,7 +92,7 @@ class NewFoodPage extends React.Component {
         </Row>
         <Row>
           <Col>
-            <Form>
+            <Form id="new-food-form">
               <Form.Group className="mb-3" controlId="newFoodName">
                 <Form.Label>Food Name</Form.Label>
               <Form.Control type="text" placeholder="Enter Name" />
